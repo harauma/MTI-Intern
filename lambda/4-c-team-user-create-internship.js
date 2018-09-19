@@ -79,7 +79,7 @@ exports.handler = (event, context, callback) => {
                 intensity: 3.5,
                 kind: "optional",
                 time: body.userInfo.walking,
-                week:0
+                week: 0
             }
         },
         {
@@ -91,7 +91,7 @@ exports.handler = (event, context, callback) => {
                 intensity: 1.8,
                 kind: "optional",
                 time: body.userInfo.train,
-                week:0
+                week: 0
             }
         },
         {
@@ -103,7 +103,7 @@ exports.handler = (event, context, callback) => {
                 intensity: 3.3,
                 kind: "optional",
                 time: 10,
-                week:0
+                week: 0
             }
         },
         {
@@ -111,7 +111,7 @@ exports.handler = (event, context, callback) => {
             Item: {
                 userId: body.userId,
                 taskName: "自転車",
-                done : false,
+                done: false,
                 intensity: 6.8,
                 kind: "optional",
                 time: body.userInfo.bicycle,
@@ -132,7 +132,10 @@ exports.handler = (event, context, callback) => {
         // userInfoを全て登録
         userInfoParams.forEach(function(param) {
             console.log(param);
-            if (param.TableName === TaskTableName && Number(param.Item.time) === 0){
+            if (
+                param.TableName === TaskTableName &&
+                Number(param.Item.time) === 0
+            ) {
                 return;
             }
             dynamo.put(param, function(err, data) {

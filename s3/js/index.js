@@ -20,8 +20,11 @@ var vm = new Vue({
             location.href = "./login.html";
         }
         // タスクを取りに行く
-        fetch(url + "/user/tasks?userId=" + localStorage.getItem("userId"), {
-            method: "POST"
+        fetch(url + "/tasks?userId=" + localStorage.getItem("userId"), {
+            method: "GET",
+            headers: new Headers({
+                Authorization: localStorage.getItem("token")
+            })
         })
             .then(function(response) {
                 if (response.status == 200) {
@@ -31,8 +34,8 @@ var vm = new Vue({
                     throw new Error(json.message);
                 });
             })
-            .then(function(json) {
-                vm.tasks = json.Items;
+            .then(json => {
+                this.tasks = json;
             })
             .catch(function(err) {
                 console.log(err);
@@ -40,7 +43,6 @@ var vm = new Vue({
     },
     methods: {
         calorie: function(task) {
-            console.log(task);
             return (
                 Math.round(
                     task.intensity *
@@ -62,13 +64,12 @@ var vm = new Vue({
             });
             return sum;
         },
-        regist: function(task) {
-            console.log(task);
+        toggle: function(task) {
             task.done = !task.done;
-            fetch(url + "/tasks", {
+            fetch(url + "/tasks/toggle", {
                 method: "PUT",
                 headers: new Headers({
-                    Authorization: localStorage.getItem("mti-intern")
+                    Authorization: localStorage.getItem("token")
                 }),
                 body: JSON.stringify(task)
             })
