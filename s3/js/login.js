@@ -54,6 +54,7 @@ var vm = new Vue({
                         // トークンをセット
                         localStorage.setItem("token", json.token);
                         localStorage.setItem("userId", this.user.userId);
+                        localStorage.setItem("weight", this.user.weight);
                         location.href = "./index.html";
                     })
                     .catch(function(err) {
