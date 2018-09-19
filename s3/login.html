@@ -11,64 +11,14 @@
 	<script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
 	<link rel="stylesheet" href="https://static.mod.io/html/external/min/index.php?b=v1&amp;f=css/slick.css&amp;1" type="text/css">
 	<link rel="stylesheet" type="text/css" media="all" href="https://static.mod.io/html/external/min/index.php?g=home&amp;1">
+	<link rel="stylesheet" href="./common/style.css">
 
 </head>
 
 <body>
 	<div id="app">
-		<!--		<common-menu current="login"></common-menu>-->
-
-		<section class="hero is-dark is-shadowless is-medium">
-			<div class="hero-head">
-				<div class="container">
-					<nav class="navbar inverttooltips navbartooltips is-dark">
-						<!--			画像部分あとで変えたい			-->
-						<div class="navbar-brand">
-							<a href="https://mod.io" class="navbar-item navbar-logo" style="margin-right: auto;">
-						<img src="https://static.mod.io/v1/images/default/logo.svg" alt="mod.io">
-					</a>
-							<a href="https://mod.io/members/login/widget" class="navbar-item thickbox is-hidden-tablet is-paddingless" rel="iframe=true;innerHeight=640;innerWidth=800" target="_self">Login</a>
-							<div class="navbar-burger burger" style="margin-left: 0;">
-								<span></span>
-								<span></span>
-								<span></span>
-							</div>
-						</div>
-
-						<!--		menu START				-->
-						<div class="navbar-menu">
-							<div class="navbar-start">
-								<a class="navbar-item" href="./index.html" v-bind:class="{active: current==='home'}">Home</a>
-							</div>
-							<div class="navbar-end">
-								<div class="navbar-item navbar-search">
-									<div class="field fieldsearch">
-										<form action="https://mod.io/search" id="search-form" method="get">
-											<div class="field">
-												<p class="control has-icons-right is-dark">
-													<input type="search" name="q" maxlength="500" value="" id="search" class="input" placeholder="Search" required="required"> <span class="icon is-small is-right"><svg class="fa icon-light-search" aria-label="Search"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-light-search"></use></svg></span>
-												</p>
-											</div>
-										</form>
-										<div class="search-suggest" style="position:relative"></div>
-									</div>
-								</div>
-								<a href="https://mod.io/members/login/widget" class="navbar-item thickbox is-guest is-hidden-tablet" rel="iframe=true;innerHeight=640;innerWidth=800" target="_self">Login</a>
-								<a href="https://mod.io/members/register/widget" class="navbar-item thickbox is-guest is-hidden-tablet" rel="iframe=true;innerHeight=640;innerWidth=800" target="_self">Sign Up</a>
-								<div class="navbar-item is-hidden-mobile is-paddingless is-guest">
-									<a href="https://mod.io/members/login/widget" class="button thickbox is-text is-nolink is-uppercase" rel="iframe=true;innerHeight=640;innerWidth=800" target="_self"><span class="icon is-small"><svg class="fa icon-light-sign-in"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-light-sign-in"></use></svg></span><span>Login</span></a>
-								</div>
-								<span class="navbar-item is-hidden-mobile is-paddingless is-guest">or</span>
-								<div class="navbar-item is-hidden-mobile is-guest">
-									<a href="https://mod.io/members/register/widget" class="button thickbox is-primary is-uppercase" rel="iframe=true;innerHeight=640;innerWidth=800" target="_self">Sign Up</a>
-								</div>
-							</div>
-						</div>
-						<!--			menu END			-->
-					</nav>
-				</div>
-			</div>
-		</section>
+		<common-menu current="login"></common-menu>
+		
 
 		<section class="hero">
 			<div class="hero-body">
@@ -81,52 +31,89 @@
 							<form v-on:submit.prevent="submit">
 								<div class="field">
 									<div class="control">
-										<input class="input is-large" type="email" placeholder="Your Email" autofocus="">
+										<input class="input is-large" type="text" placeholder="User ID" autofocus="" v-model="user.userId" required>
 									</div>
 								</div>
 
 								<div class="field">
 									<div class="control">
-										<input class="input is-large" type="password" placeholder="Your Password">
+										<input class="input is-large" type="password" placeholder="Your Password" v-model="user.password" required>
 									</div>
 								</div>
 								<div class="field" v-if="mode=='signup'">
 									<div class="control">
-										<input class="input is-large" type="text" placeholder="Your weight">
+										<input class="input is-large" type="text" placeholder="Your weight" v-model="user.weight" required>
 									</div>
 								</div>
 								<!-- 現在の状況入力フォーム(新規登録時のみ) -->
 								<!-- @TODO 現状フォーム要素固定 -->
-								<h3 class="ui dividing header" v-if="mode=='signup'">現在の生活上状況</h3>
+								<label class="label is-large" v-if="mode=='signup'">現在の生活状況</label>
+								<div class="card-header bg-transparent font-weight-bold" v-if="mode=='signup'">
+									通勤時間
+								</div>
 								<!-- 通勤時間入力フォーム -->
 								<div class="field">
 									<div class="field-body" v-if="mode=='signup'">
-										<div class="field">
+										<!--徒歩-->
+										<div class="form-label-group">
+            				<label class="label">徒歩</label>
+										<div class="field has-addons">
 											<div class="control">
-												<input class="input is-small" type="number" placeholder="徒歩" v-model="user.userInfo.walking" required>
-												<div class="label">分</div>
+												<input class="input" type="number" v-model="user.userInfo.walking" required>
+											</div>
+											<div class="control">
+												<a class="button is-static">
+														分
+												</a>
 											</div>
 										</div>
-										<div class="field">
+										</div>
+										<!--電車-->
+										<div class="form-label-group">
+            				<label class="label">電車</label>
+										<div class="field has-addons">
 											<div class="control">
-												<input class="input is-small" type="number" placeholder="電車" v-model="user.userInfo.train" required>
-												<div class="label">分</div>
+												<input class="input" type="number" 　v-model="user.userInfo.train" required>
+											</div>
+											<div class="control">
+												<a class="button is-static">
+														分
+												</a>
 											</div>
 										</div>
-										<div class="field">
+										</div>
+										<!--自転車-->
+										<div class="form-label-group">
+            				<label class="label">自転車</label>
+										<div class="field has-addons">
 											<div class="control">
-												<input class="input is-small" type="number" placeholder="自転車" v-model="user.userInfo.bicycle" required>
-												<div class="ui basic label">分</div>
+												<input class="input" type="number" v-model="user.userInfo.bicycle" required>
 											</div>
+											<div class="control">
+												<a class="button is-static">
+														分
+												</a>
+											</div>
+										</div>
 										</div>
 									</div>
 								</div>
 								<!-- デスクワーク時間入力フォーム -->
-								<div class="field" v-if="mode=='signup'">
-									<label>デスクワーク時間</label>
-									<div class="control">
-										<input class="input is-small" type="number" v-model="user.userInfo.deskWork" required>
-										<div class="ui basic label">時間</div>
+								<div class="card-header bg-transparent font-weight-bold" v-if="mode=='signup'">
+									デスクワーク時間
+								</div>
+								<div class="field">
+									<div class="field-body" v-if="mode=='signup'">
+										<div class="field has-addons">
+											<div class="control is-expanded">
+												<input class="input" type="number" v-model="user.userInfo.deskWork" required>
+											</div>
+											<div class="control">
+												<a class="button is-static">
+														時間
+												</a>
+											</div>
+										</div>
 									</div>
 								</div>
 
@@ -151,6 +138,13 @@
 	<script src="./js/login.js" charset="utf-8"></script>
 
 </body>
+<footer class="footer">
+   <div class="container">
+     <div class="content has-text-centered">
+       2018 c-team
+     </div>
+   </div>
+</footer>
 
 
 

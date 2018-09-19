@@ -2,87 +2,87 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title></title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
-  <script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
-  <link rel="stylesheet" href="./common/style.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title></title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+	<script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
+	<link rel="stylesheet" href="./common/style.css">
 </head>
 
 <body>
-  <div id="app">
-    <common-menu current="login"></common-menu>
-    <div class="ui main container">
-      <div class="ui segment">
-        <form class="ui large form" v-on:submit.prevent="submit">
-          <!-- ユーザ基本情報フォーム -->
-          <h4 class="ui dividing header" v-if="mode=='signup'">ユーザー基本情報</h4>
-          <div class="field">
-            <label>ユーザーID</label>
-            <input type="text" v-model="user.userId" required>
-          </div>
-          <div class="field">
-            <label>パスワード</label>
-            <input type="password" v-model="user.password" required>
-          </div>
-          <!-- 体重入力フォーム(新規登録時のみ) -->
-          <div class="field" v-if="mode=='signup'">
-            <label>体重</label>
-            <input type="text" v-model="user.weight" required>
-          </div>
-          <!-- 現在の状況入力フォーム(新規登録時のみ) -->
-          <!-- @TODO 現状フォーム要素固定 -->
-          <h4 class="ui dividing header" v-if="mode=='signup'">現在の生活状況</h4>
-          <!-- 通勤時間入力フォーム -->
-          <div class="field">
-            <label>通勤時間</label>
-            <div class="three fields" v-if="mode=='signup'">
-              <div class="field">
-                <div class="ui right labeled input">
-                  <input type="number" placeholder="徒歩" v-model="user.userInfo.walking" required>
-                  <div class="ui basic label">分</div>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui right labeled input">
-                  <input type="number" placeholder="電車" v-model="user.userInfo.train" required>
-                  <div class="ui basic label">分</div>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui right labeled input">
-                  <input type="number" placeholder="自転車" v-model="user.userInfo.bicycle" required>
-                  <div class="ui basic label">分</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- デスクワーク時間入力フォーム -->
-          <div class="field" v-if="mode=='signup'">
-            <label>デスクワーク時間</label>
-            <div class="ui right labeled input">
-              <input type="number" v-model="user.userInfo.deskWork" required>
-              <div class="ui basic label">時間</div>
-            </div>
-          </div>
-          <!-- フォーム送信ボタン -->
-          <button class="ui huge green fluid button" type="submit">
+	<div id="app">
+		<common-menu current="login"></common-menu>
+		<div class="ui main container">
+			<div class="ui segment">
+				<form class="ui large form" v-on:submit.prevent="submit">
+					<!-- ユーザ基本情報フォーム -->
+					<h4 class="ui dividing header" v-if="mode=='signup'">ユーザー基本情報</h4>
+					<div class="field">
+						<label>ユーザーID</label>
+						<input type="text" v-model="user.userId" required>
+					</div>
+					<div class="field">
+						<label>パスワード</label>
+						<input type="password" v-model="user.password" required>
+					</div>
+					<!-- 体重入力フォーム(新規登録時のみ) -->
+					<div class="field" v-if="mode=='signup'">
+						<label>体重</label>
+						<input type="text" v-model="user.weight" required>
+					</div>
+					<!-- 現在の状況入力フォーム(新規登録時のみ) -->
+					<!-- @TODO 現状フォーム要素固定 -->
+					<h4 class="ui dividing header" v-if="mode=='signup'">現在の生活状況</h4>
+					<!-- 通勤時間入力フォーム -->
+					<div class="field" v-if="mode=='signup'">
+						<label>通勤時間</label>
+						<div class="three fields" v-if="mode=='signup'">
+							<div class="field">
+								<div class="ui right labeled input">
+									<input type="number" placeholder="徒歩" v-model="user.userInfo.walking" required>
+									<div class="ui basic label">分</div>
+								</div>
+							</div>
+							<div class="field">
+								<div class="ui right labeled input">
+									<input type="number" placeholder="電車" v-model="user.userInfo.train" required>
+									<div class="ui basic label">分</div>
+								</div>
+							</div>
+							<div class="field">
+								<div class="ui right labeled input">
+									<input type="number" placeholder="自転車" v-model="user.userInfo.bicycle" required>
+									<div class="ui basic label">分</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- デスクワーク時間入力フォーム -->
+					<div class="field" v-if="mode=='signup'">
+						<label>デスクワーク時間</label>
+						<div class="ui right labeled input">
+							<input type="number" v-model="user.userInfo.deskWork" required>
+							<div class="ui basic label">時間</div>
+						</div>
+					</div>
+					<!-- フォーム送信ボタン -->
+					<button class="ui huge green fluid button" type="submit">
             {{ submitText }}
           </button>
-        </form>
-      </div>
-      <!-- フォーム切り替えボタン -->
-      <button class="ui huge grey fluid button" v-on:click="toggleMode">
+				</form>
+			</div>
+			<!-- フォーム切り替えボタン -->
+			<button class="ui huge grey fluid button" v-on:click="toggleMode">
         {{ toggleText }}
       </button>
-    </div>
-  </div>
+		</div>
+	</div>
 
-  <script src="./common/config.js" charset="utf-8"></script>
-  <script src="./js/menu.js" charset="utf-8"></script>
-  <script src="./js/login.js" charset="utf-8"></script>
+	<script src="./common/config.js" charset="utf-8"></script>
+	<script src="./js/menu.js" charset="utf-8"></script>
+	<script src="./js/login.js" charset="utf-8"></script>
 </body>
 
 </html>

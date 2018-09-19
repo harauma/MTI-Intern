@@ -19,26 +19,37 @@
         <!-- 必須 -->
         <div class="eight wide column">
           <h2 class="ui header">必須</h2>
-          <div class="ui segments">
-            <div class="ui segment" v-for="task in tasks.filter(task => task.kind === 'required')">
+          <div class="ui segments" v-if="necessaryTasks.length !== 0">
+            <div class="ui segment" v-for="ntask in necessaryTasks">
               <div class="ui checkbox">
-                <input type="checkbox">
-                <label>{{task.taskName}}</label>
+                <input type="checkbox" v-on:click="regist(ntask)" v-bind:checked="ntask.done">
+                <label>{{ntask.taskName}}</label>
               </div>
             </div>
+          </div>
+          <h3 class="ui header grey" v-else>現在必須タスクはありません。</h3>
+          <div v-if="necessaryTasks.length !== 0">
+            <h4 class="ui header">消費カロリー:{{sumCalorie(necessaryTasks.filter(t => t.done === true))}}kcal</h4>
+            <h4 class="ui header">合計カロリー:{{sumCalorie(necessaryTasks)}}kcal</h4>
           </div>
         </div>
         <!-- 必須終了 -->
         <!-- 追加 -->
         <div class="eight wide column">
           <h2 class="ui header">追加</h2>
-          <div class="ui segments">
-            <div class="ui segment" v-for="task in tasks.filter(task => task.kind === 'add')">
+          <div class="ui segments" v-if="optionalTasks.length !== 0">
+            <div class="ui segment" v-for="otask in optionalTasks">
               <div class="ui checkbox">
-                <input type="checkbox">
-                <label>{{task.taskName}}</label>
+                <input type="checkbox" v-on:click="regist(otask)" v-bind:checked="otask.done">
+                <label>{{otask.taskName}}</label>
               </div>
+              {{calorie(otask)}}
             </div>
+          </div>
+          <h3 class="ui header grey" v-else>現在追加タスクはありません。</h3>
+          <div v-if="optionalTasks.length !== 0">
+            <h4 class="ui header">消費カロリー: {{sumCalorie(optionalTasks.filter(t => t.done === true))}}kcal</h4>
+            <h4 class="ui header">合計カロリー: {{sumCalorie(optionalTasks)}}kcal</h4>
           </div>
         </div>
         <!-- 追加終了 -->
