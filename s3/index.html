@@ -20,7 +20,7 @@
         <div class="eight wide column">
           <h2 class="ui header">必須</h2>
           <div class="ui segments">
-            <div class="ui segment" v-for="task in tasks.filter(task => task.kind === 'required')">
+            <div class="ui segment" v-for="ntask in NecessaryTasks">
               <div class="ui checkbox">
                 <input type="checkbox" v-on:click="regist(task)">
                 <label>{{task.taskName}}</label>
@@ -33,7 +33,7 @@
         <div class="eight wide column">
           <h2 class="ui header">追加</h2>
           <div class="ui segments">
-            <div class="ui segment" v-for="task in tasks.filter(task => task.kind === 'add')">
+            <div class="ui segment" v-for="otask in OptionalTasks">
               <div class="ui checkbox">
                 <input type="checkbox" v-on:click="regist(task)">
                 <label>{{task.taskName}}</label>
