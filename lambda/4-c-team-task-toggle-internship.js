@@ -13,7 +13,6 @@ exports.handler = (event, context, callback) => {
 
     var body = JSON.parse(event.body);
 
-    //TODO: paramに更新対象のテーブル名と更新内容を記述
     var param = {
         TableName: tableName,
         Item: {
@@ -26,11 +25,9 @@ exports.handler = (event, context, callback) => {
             kind: body.kind
         }
     };
-    console.log(param.Key);
-    //dynamo.put()を用いてデータの更新k
+
     dynamo.put(param, function(err, data) {
         if (err) {
-            //TODO: 更新に失敗した場合の処理を記述
             console.log(err);
             response.statusCode = 500;
             response.body = JSON.stringify({
@@ -39,7 +36,6 @@ exports.handler = (event, context, callback) => {
             callback(null, response);
             return;
         } else {
-            //TODO: 更新に成功した場合の処理を記述
             response.body = JSON.stringify(param.Item);
             callback(null, response);
         }
