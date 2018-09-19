@@ -21,7 +21,7 @@ exports.handler = (event, context, callback) => {
         //キー、インデックスによる検索の定義
         "KeyConditionExpression" :
             //"userId = :uid",
-            "userId = :uid ",
+            "userId = :uid",
         //検索値のプレースホルダの定義
         "ExpressionAttributeValues" : {
             ":uid": userId
@@ -49,7 +49,7 @@ exports.handler = (event, context, callback) => {
         if(posts.Items.length === 0){
             response.statusCode = 401;
             response.body = JSON.stringify({"message": "Not Found"});
-            console.log(userId);            
+            console.log(userId);
             callback(null, response);
             return;
         }

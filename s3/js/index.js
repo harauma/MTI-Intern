@@ -17,9 +17,9 @@ var vm = new Vue({
         }
     },
     created: function() {
-        /*if (!localStorage.getItem("token")) {
+        if (!localStorage.getItem("token")) {
             location.href = "./login.html";
-        }*/
+        }
         // タスクを取りに行く
         fetch(url + "/user/tasks?userId=" + localStorage.getItem('userId'), {
             method: "POST"
