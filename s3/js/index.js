@@ -1,6 +1,12 @@
 var vm = new Vue({
     el: "#app",
     data: {
+        user: {
+            userId: null,
+            weight: null,
+            level: null,
+            exp: null
+        },
         tasks: []
     },
     computed: {
@@ -19,6 +25,28 @@ var vm = new Vue({
         if (!localStorage.getItem("token")) {
             location.href = "./login.html";
         }
+        // ユーザー情報を取得する
+        fetch(url + "/user?userId=" + localStorage.getItem("userId"), {
+            method: "GET",
+            headers: new Headers({
+                Authorization: localStorage.getItem("token")
+            })
+        })
+            .then(function(response) {
+                if (response.status == 200) {
+                    return response.json();
+                }
+                return response.json().then(function(json) {
+                    throw new Error(json.message);
+                });
+            })
+            .then(json => {
+                this.user = json;
+                console.log(this.user);
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
         // タスクを取りに行く
         fetch(url + "/tasks?userId=" + localStorage.getItem("userId"), {
             method: "GET",
