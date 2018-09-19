@@ -17,5 +17,8 @@
         "gulp-zip": "^4.0.0",
         "node-aws-lambda": "^0.1.1",
         "run-sequence": "^1.2.2"
+    },
+    "dependencies": {
+        "bulma": "^0.7.1"
     }
 }
