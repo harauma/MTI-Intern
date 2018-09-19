@@ -113,10 +113,10 @@ var vm = new Vue({
         },
         // 追加タスクを必須タスクへ移動させるメソッド
         // この関数を呼ぶと，条件を満たす全てのタスクが移動する
-        moveOpt2Nec: function(){
-            vm.optionalTasks.forEach(function(task){
+        moveOpt2Nec: function() {
+            vm.optionalTasks.forEach(function(task) {
                 // 達成回数が5回未満なら処理を飛ばす
-                if(task.week < 5){
+                if (task.week < 5) {
                     return;
                 }
                 fetch(url + "tasks", {
@@ -131,18 +131,18 @@ var vm = new Vue({
                         week: 0 // 0回に初期化
                     })
                 })
-                    .then(function(response){
-                        if(response.statusCode == 200){
+                    .then(function(response) {
+                        if (response.statusCode == 200) {
                             return response.json();
                         }
-                        return response.json().then(function(json){
+                        return response.json().then(function(json) {
                             throw new Error(json.message);
                         });
                     })
-                    .then(function(json){
+                    .then(function(json) {
                         console.log("[moveOpt2Nec]成功");
                     })
-                    .catch(function(err){
+                    .catch(function(err) {
                         console.log("[moveOpt2Nec]失敗");
                         console.log(err);
                     });
