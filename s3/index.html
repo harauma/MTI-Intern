@@ -22,7 +22,7 @@
           <div class="ui segments">
             <div class="ui segment" v-for="task in tasks.filter(task => task.kind === 'required')">
               <div class="ui checkbox">
-                <input type="checkbox">
+                <input type="checkbox" v-on:click="regist(task)">
                 <label>{{task.taskName}}</label>
               </div>
             </div>
@@ -35,7 +35,7 @@
           <div class="ui segments">
             <div class="ui segment" v-for="task in tasks.filter(task => task.kind === 'add')">
               <div class="ui checkbox">
-                <input type="checkbox">
+                <input type="checkbox" v-on:click="regist(task)">
                 <label>{{task.taskName}}</label>
               </div>
             </div>
