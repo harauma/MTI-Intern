@@ -15,18 +15,20 @@ exports.handler = (event, context, callback) => {
 
     //TODO: paramに更新対象のテーブル名と更新内容を記述
     var param = {
-        "TableName" : tableName,
-        "Item" : {
+        TableName : tableName,
+        Key : {
             "userId" : body.userId,
-            "password": body.password,
-            "weight" : body.weight,
-            "level" : Number(body.level),
-            "exp" : Number(body.exp)
-        }
+        },
+        updateExpression: "set level = :l, exp = :e",
+        ExpressionAttributeValues:{
+            ":l": Number(body.level),
+            ":e": Number(body.exp)
+        },
+        ReturnValues:"UPDATED_NEW"
     };
     console.log(param.Key);
     //dynamo.put()を用いてデータの更新k
-    dynamo.put(param, function(err, data){
+    dynamo.update(param, function(err, data){
         if(err){
             //TODO: 更新に失敗した場合の処理を記述
             console.log(err);
