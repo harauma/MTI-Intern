@@ -5,7 +5,8 @@ var vm = new Vue({
             userId: null,
             weight: null,
             level: null,
-            exp: null
+            exp: null,
+            days: null
         },
         tasks: []
     },
@@ -118,7 +119,7 @@ var vm = new Vue({
             } else {
                 exp = this.user.exp - calorie;
             }
-            level = Math.round(exp / 300) + 1;
+            level = Math.floor(exp / 300) + 1;
             fetch(url + "/user/exp", {
                 method: "PUT",
                 headers: new Headers({
@@ -237,6 +238,28 @@ var vm = new Vue({
                 .catch(function(err) {
                     console.log("[calcAndUpdate]更新失敗");
                     console.log(err);
+                });
+        },
+        dailyClose: function() {
+            fetch(url + "/daily-close", {
+                method: "POST",
+                headers: new Headers({
+                    Authorization: localStorage.getItem("token")
+                }),
+                body: JSON.stringify(this.user)
+            })
+                .then(function(response) {
+                    if (response.status == 200) {
+                        return response.json();
+                    }
+                    return response.json().then(function(json) {
+                        throw new Error(json.message);
+                    });
+                })
+                .then(json => {
+                    console.log(json);
+                    console.log("日付を進めました");
+                    location.href = "./index.html";
                 });
         }
     }

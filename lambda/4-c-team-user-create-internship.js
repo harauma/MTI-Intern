@@ -24,7 +24,8 @@ exports.handler = (event, context, callback) => {
             weight: body.weight,
             level: 1,
             exp: 0,
-            rate: 0
+            rate: 0,
+            days: 1
         },
         ReturnValues: "ALL_OLD"
     };

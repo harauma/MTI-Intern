@@ -30,6 +30,7 @@ exports.handler = (event, context, callback) => {
         UpdateExpression: "SET #l = :l, #e = :e",
         ReturnValues: "UPDATED_NEW"
     };
+
     dynamo.update(param, function(err, data) {
         if (err) {
             console.log(err);
@@ -39,11 +40,11 @@ exports.handler = (event, context, callback) => {
             });
             callback(null, response);
             return;
-        } else {
-            response.body = JSON.stringify({
-                message: "経験値の更新が完了しました"
-            });
-            callback(null, response);
         }
+
+        response.body = JSON.stringify({
+            message: "経験値の更新が完了しました"
+        });
+        callback(null, response);
     });
 };
