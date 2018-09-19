@@ -155,6 +155,20 @@ var vm = new Vue({
             }
             return exp >= cond;
         },
+        // レートの計算 (これもやっつけ実装)
+        calcRate: function(tasks) {
+            let sum = 0; //一週間あたりの総消費カロリー
+            tasks.forEach(task => {
+                sum += Math.round(
+                    task.intensity *
+                        localStorage.getItem("weight") *
+                        (task.time / 60) *
+                        1.05 *
+                        task.week // sumCalorieと違うのはここ
+                );
+            });
+            return sum/7.0; //平均値をレートとして返す
+        },
         // 経験値を加算&レートやレベルのアップデート
         // 引数は消費カロリーの合計値
         calcAndUpdate: function(cal){
