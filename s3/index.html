@@ -2,64 +2,79 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>フロント開発</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
-  <script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
-  <link rel="stylesheet" href="./common/style.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Hibiet - Home</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+	<script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
+	<link rel="stylesheet" href="https://static.mod.io/html/external/min/index.php?b=v1&amp;f=css/slick.css&amp;1" type="text/css">
+	<link rel="stylesheet" type="text/css" media="all" href="https://static.mod.io/html/external/min/index.php?g=home&amp;1">
+	<link rel="stylesheet" href="./common/style.css">
+
 </head>
 
 <body>
-  <div id="app">
-    <common-menu current="home"></common-menu>
-    <div class="ui main container">
-      <div class="ui stackable grid">
-        <!-- 必須 -->
-        <div class="eight wide column">
-          <h2 class="ui header">必須</h2>
-          <div class="ui segments" v-if="necessaryTasks.length !== 0">
-            <div class="ui segment" v-for="ntask in necessaryTasks">
-              <div class="ui checkbox">
-                <input type="checkbox" v-on:click="toggle(ntask)" v-bind:checked="ntask.done">
-                <label>{{ntask.taskName}}</label>
-              </div>
-            </div>
-          </div>
-          <h3 class="ui header grey" v-else>現在必須タスクはありません。</h3>
-          <div v-if="necessaryTasks.length !== 0">
-            <h4 class="ui header">消費カロリー:{{sumCalorie(necessaryTasks.filter(t => t.done === true))}}kcal</h4>
-            <h4 class="ui header">合計カロリー:{{sumCalorie(necessaryTasks)}}kcal</h4>
-          </div>
-        </div>
-        <!-- 必須終了 -->
-        <!-- 追加 -->
-        <div class="eight wide column">
-          <h2 class="ui header">追加</h2>
-          <div class="ui segments" v-if="optionalTasks.length !== 0">
-            <div class="ui segment" v-for="otask in optionalTasks">
-              <div class="ui checkbox">
-                <input type="checkbox" v-on:click="toggle(otask)" v-bind:checked="otask.done">
-                <label>{{otask.taskName}}</label>
-              </div>
-              {{calorie(otask)}}
-            </div>
-          </div>
-          <h3 class="ui header grey" v-else>現在追加タスクはありません。</h3>
-          <div v-if="optionalTasks.length !== 0">
-            <h4 class="ui header">消費カロリー: {{sumCalorie(optionalTasks.filter(t => t.done === true))}}kcal</h4>
-            <h4 class="ui header">合計カロリー: {{sumCalorie(optionalTasks)}}kcal</h4>
-          </div>
-        </div>
-        <!-- 追加終了 -->
-      </div>
-    </div>
-  </div>
+	<div id="app">
+		<common-menu current="home"></common-menu>
+		<section class="container">
+			<div class="columns is-mobile is-centered" id="sectioncontainer">
+				<!-- 必須 -->
+				<div class="column is-two-fifths">
+					<article class="message is-primary">
+						<div class="message-header">
+							<p>必須</p>
+						</div>
+						<div class="message-body" v-if="necessaryTasks.length !== 0">
+							<div class="board-item" v-for="ntask in necessaryTasks">
+								<div class="board-item-content"><span>			
+										<label class="checkbox" v-on:click="regist(ntask)" v-bind:checked="ntask.done">
+											<input type="checkbox">
+											{{ntask.taskName}}
+										</label>							
+									</span></div>
+							</div>
+						</div>
+						<h4 class="title is-4 has-text-centered" v-else>現在必須タスクはありません。</h4>
+						<div v-if="necessaryTasks.length !== 0">
+            <h4 class="title is-5 has-text-centered">消費カロリー:{{sumCalorie(necessaryTasks.filter(t => t.done === true))}}kcal</h4>
+            <h4 class="title is-5 has-text-centered">合計カロリー:{{sumCalorie(necessaryTasks)}}kcal</h4>
+          </div>						
+					</article>
+				</div>
+				<!-- 必須終了 -->
+				<!-- 追加 -->
+				<div class="column is-two-fifths">
+					<article class="message is-link">
+						<div class="message-header">
+							<p>追加</p>
+						</div>
+						<div class="message-body" v-if="optionalTasks.length !== 0">
+							<div class="board-item" v-for="otask in optionalTasks">
+								<div class="board-item-content"><span>			
+										<label class="checkbox" v-on:click="regist(otask)" v-bind:checked="otask.done">
+											<input type="checkbox">
+											{{otask.taskName}}<span>    {{calorie(otask)}}</span>
+										</label>							
+									</span></div>
+							</div>
+						</div>
+						<h4 class="title is-4 has-text-centered" v-else>現在必須タスクはありません。</h4>
+						<div v-if="optionalTasks.length !== 0">
+            <h4 class="title is-5 has-text-centered">消費カロリー: {{sumCalorie(optionalTasks.filter(t => t.done === true))}}kcal</h4>
+            <h4 class="title is-5 has-text-centered">合計カロリー: {{sumCalorie(optionalTasks)}}kcal</h4>
+          </div>						
+					</article>
+				</div>
+				<!-- 追加終了 -->
+			</div>
 
-  <script src="./common/config.js" charset="utf-8"></script>
-  <script src="./js/menu.js" charset="utf-8"></script>
-  <script src="./js/index.js" charset="utf-8"></script>
+		</section>
+	</div>
+	<script src="./common/config.js" charset="utf-8"></script>
+	<script src="./js/menu.js" charset="utf-8"></script>
+	<script src="./js/index.js" charset="utf-8"></script>
 </body>
 
 </html>
