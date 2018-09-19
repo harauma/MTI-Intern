@@ -49,12 +49,13 @@ var vm = new Vue({
                         });
                     })
                     .then(json => {
+                        console.log(json);
                         var content = JSON.stringify(json, null, 2);
                         console.log(content);
                         // トークンをセット
                         localStorage.setItem("token", json.token);
-                        localStorage.setItem("userId", this.user.userId);
-                        localStorage.setItem("weight", this.user.weight);
+                        localStorage.setItem("userId", json.userId);
+                        localStorage.setItem("weight", json.weight);
                         location.href = "./index.html";
                     })
                     .catch(function(err) {

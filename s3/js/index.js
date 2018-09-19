@@ -40,6 +40,7 @@ var vm = new Vue({
     },
     methods: {
         calorie: function(task) {
+            console.log(task);
             return (
                 Math.round(
                     task.intensity *
