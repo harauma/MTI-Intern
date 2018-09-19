@@ -42,7 +42,6 @@ var vm = new Vue({
             })
             .then(json => {
                 this.user = json;
-                console.log(this.user);
             })
             .catch(function(err) {
                 console.log(err);
