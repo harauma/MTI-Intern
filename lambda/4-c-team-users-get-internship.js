@@ -15,6 +15,13 @@ exports.handler = (event, context, callback) => {
         body: JSON.stringify({"message" : ""})
     };
 
+    if (!event.headers || event.headers.Authorization !== "mti-internship") {
+        response.statusCode = 401;
+        response.body = JSON.stringify({ message: "ログインが必要です" });
+        callback(null, response);
+        return;
+    }
+    
     var param = {
         "TableName": tableName
     };
