@@ -40,5 +40,43 @@ var vm = new Vue({
                 console.log(err);
             });
     },
-    methods: {}
+    methods: {
+        regist:function(task){
+            fetch(url + "/tasks", {
+                method: "PUT",
+                headers:new Headers({
+                    "Authorization": localStorage.getItem("mti-intern")
+                }),
+                body: function(){
+                    result=JSON.stringify(task);
+                    if(task.completed){
+                        task.completed = true;
+                    }else{
+                        task.completed=false;
+                    }
+                }
+            })
+           .then(function (response) {
+               if (response.status == 200) {
+                   return response.json();
+               }
+               return response.json().then(function (json) {
+                   throw new Error(json.message);
+               });
+           })
+           .then(function (json) {
+
+           })
+
+               // divide into "add" and "required"
+               for (var i = 0; i < list.length; i++) {
+                   if (list[i].kind == "add") {
+                       vm.add.add(list[i]);
+                   } else if (list[i].kind == "required") {
+                       vm.required.add(list[i]);
+                   }
+               }
+           })
+        }
+    }
 });
