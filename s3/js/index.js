@@ -160,7 +160,7 @@ var vm = new Vue({
         calcAndUpdate: function(cal){
             let newExp = vm.currentExp + cal;
             // 条件を満たしていたらインクリメント
-            let newLevel = vm.CanLevelUp(cal) ? vm.currentLevel + 1 : vm.currentLevel;
+            let newLevel = vm.CanLevelUp(newExp) ? vm.currentLevel + 1 : vm.currentLevel;
             // レートの計算は未実装
             fetch(url + "/user", {
                 // 4-c-team-update-userがデプロイされたパスを指定する
