@@ -43,8 +43,11 @@ exports.handler = (event, context, callback) => {
             callback(null, response);
             return;
         }
+        console.log(data);
         response.body = JSON.stringify({
-            token: "mti-internship"
+            token: "mti-internship",
+            userId: data.Items[0].userId,
+            weight: data.Items[0].weight
         });
         callback(null, response);
         return;
