@@ -1,6 +1,6 @@
 var AWS = require("aws-sdk");
 var dynamo = new AWS.DynamoDB.DocumentClient();
-var tableName = "team-C-User-internship";
+var tableName = "team-C-Task-internship";
 
 exports.handler = (event, context, callback) => {
     var response = {
@@ -15,20 +15,19 @@ exports.handler = (event, context, callback) => {
 
     var param = {
         TableName: tableName,
-        Key: {
-            userId: body.userId
-        },
-        updateExpression: "set level = :l, exp = :e",
-        ExpressionAttributeValues: {
-            ":l": Number(body.level),
-            ":e": Number(body.exp)
-        },
-        ReturnValues: "UPDATED_NEW"
+        Item: {
+            userId: body.userId,
+            taskName: body.taskName,
+            intensity: body.intensity,
+            done: body.done,
+            week: body.week,
+            time: body.time,
+            kind: body.kind
+        }
     };
-    console.log(param.Key);
-    dynamo.update(param, function(err, data) {
+
+    dynamo.put(param, function(err, data) {
         if (err) {
-            //TODO: 更新に失敗した場合の処理を記述
             console.log(err);
             response.statusCode = 500;
             response.body = JSON.stringify({
