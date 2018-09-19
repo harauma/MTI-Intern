@@ -1,65 +1,86 @@
 var vm = new Vue({
     el: "#app",
     data: {
-        // サンプルタスク
-        tasks: [
-            {
-                userId: "oguri_d",
-                taskName: "サンプルタスク1",
-                done: false,
-                week: 0,
-                time: 30,
-                kind: "required"
-            },
-            {
-                userId: "oguri_d",
-                taskName: "サンプルタスク2",
-                done: false,
-                week: 0,
-                time: 30,
-                kind: "required"
-            },
-            {
-                userId: "oguri_d",
-                taskName: "サンプルタスク3",
-                done: false,
-                week: 0,
-                time: 30,
-                kind: "add"
-            },
-            {
-                userId: "oguri_d",
-                taskName: "サンプルタスク4",
-                done: false,
-                week: 0,
-                time: 30,
-                kind: "add"
-            }
-        ]
+        tasks: []
     },
-    computed: {},
+    computed: {
+        necessaryTasks: function() {
+            return this.tasks.filter(function(target) {
+                return target.kind === "necessary";
+            });
+        },
+        optionalTasks: function() {
+            return this.tasks.filter(function(target) {
+                return target.kind === "optional";
+            });
+        }
+    },
     created: function() {
         if (!localStorage.getItem("token")) {
             location.href = "./login.html";
         }
         // タスクを取りに行く
-        // fetch(url + "/tasks", {
-        //     method: "GET"
-        // })
-        //     .then(function(response) {
-        //         if (response.status == 200) {
-        //             return response.json();
-        //         }
-        //         return response.json().then(function(json) {
-        //             throw new Error(json.message);
-        //         });
-        //     })
-        //     .then(json => {
-        //         this.tasks = json.tasks;
-        //     })
-        //     .catch(function(err) {
-        //         // @TODO タスク取得エラー処理
-        //     });
+        fetch(url + "/user/tasks?userId=" + localStorage.getItem("userId"), {
+            method: "POST"
+        })
+            .then(function(response) {
+                if (response.status == 200) {
+                    return response.json();
+                }
+                return response.json().then(function(json) {
+                    throw new Error(json.message);
+                });
+            })
+            .then(function(json) {
+                vm.tasks = json.Items;
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
     },
-    methods: {}
+    methods: {
+        calorie: function(task) {
+            console.log(task);
+            return (
+                Math.round(
+                    task.intensity *
+                        localStorage.getItem("weight") *
+                        (task.time / 60) *
+                        1.05
+                ) + "kcal"
+            );
+        },
+        sumCalorie: function(tasks) {
+            let sum = 0;
+            tasks.forEach(task => {
+                sum += Math.round(
+                    task.intensity *
+                        localStorage.getItem("weight") *
+                        (task.time / 60) *
+                        1.05
+                );
+            });
+            return sum;
+        },
+        regist: function(task) {
+            console.log(task);
+            task.done = !task.done;
+            fetch(url + "/tasks", {
+                method: "PUT",
+                headers: new Headers({
+                    Authorization: localStorage.getItem("mti-intern")
+                }),
+                body: JSON.stringify(task)
+            })
+                .then(function(response) {
+                    if (response.status == 200) {
+                        return response.json();
+                    }
+                    return response.json().then(function(json) {
+                        throw new Error(json.message);
+                    });
+                })
+                .then(function(json) {});
+        }
+    }
 });
