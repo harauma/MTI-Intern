@@ -80,15 +80,6 @@ var vm = new Vue({
                     });
                 })
                 .then(function(json) {});
-
-            // divide into "add" and "required"
-            // for (var i = 0; i < list.length; i++) {
-            //     if (list[i].kind == "add") {
-            //         vm.add.add(list[i]);
-            //     } else if (list[i].kind == "required") {
-            //         vm.required.add(list[i]);
-            //     }
-            // }
         }
     }
 });
