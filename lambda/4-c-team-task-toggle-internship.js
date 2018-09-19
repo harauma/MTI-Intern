@@ -12,6 +12,11 @@ exports.handler = (event, context, callback) => {
     };
 
     var body = JSON.parse(event.body);
+    if (body.done) {
+        body.week += 1;
+    } else {
+        body.week -= 1;
+    }
 
     var param = {
         TableName: tableName,

@@ -24,9 +24,10 @@
           <div class="ui segments" v-if="necessaryTasks.length !== 0">
             <div class="ui segment" v-for="ntask in necessaryTasks">
               <div class="ui checkbox">
-                <input type="checkbox" v-on:click="toggle(ntask)" v-bind:checked="ntask.done">
+                <input type="checkbox" v-on:click="toggle(ntask, calorie(ntask))" v-bind:checked="ntask.done">
                 <label>{{ntask.taskName}}</label>
               </div>
+              {{calorie(otask)}}kcal
             </div>
           </div>
           <h3 class="ui header grey" v-else>現在必須タスクはありません。</h3>
@@ -42,10 +43,10 @@
           <div class="ui segments" v-if="optionalTasks.length !== 0">
             <div class="ui segment" v-for="otask in optionalTasks">
               <div class="ui checkbox">
-                <input type="checkbox" v-on:click="toggle(otask)" v-bind:checked="otask.done">
+                <input type="checkbox" v-on:click="toggle(otask, calorie(otask))" v-bind:checked="otask.done">
                 <label>{{otask.taskName}}</label>
               </div>
-              {{calorie(otask)}}
+              {{calorie(otask)}}kcal
             </div>
           </div>
           <h3 class="ui header grey" v-else>現在追加タスクはありません。</h3>

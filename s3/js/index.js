@@ -70,13 +70,11 @@ var vm = new Vue({
     },
     methods: {
         calorie: function(task) {
-            return (
-                Math.round(
-                    task.intensity *
-                        localStorage.getItem("weight") *
-                        (task.time / 60) *
-                        1.05
-                ) + "kcal"
+            return Math.round(
+                task.intensity *
+                    localStorage.getItem("weight") *
+                    (task.time / 60) *
+                    1.05
             );
         },
         sumCalorie: function(tasks) {
@@ -91,7 +89,7 @@ var vm = new Vue({
             });
             return sum;
         },
-        toggle: function(task) {
+        toggle: function(task, calorie) {
             task.done = !task.done;
             fetch(url + "/tasks/toggle", {
                 method: "PUT",
@@ -108,7 +106,38 @@ var vm = new Vue({
                         throw new Error(json.message);
                     });
                 })
-                .then(function(json) {});
+                .then(json => {
+                    let exp = 0;
+                    let level = 0;
+                    if (task.done == true) {
+                        exp = this.user.exp + calorie;
+                    } else {
+                        exp = this.user.exp - calorie;
+                    }
+                    level = Math.round(exp / 300) + 1;
+                    fetch(url + "/user/exp", {
+                        method: "PUT",
+                        headers: new Headers({
+                            Authorization: localStorage.getItem("token")
+                        }),
+                        body: JSON.stringify({
+                            userId: localStorage.getItem("userId"),
+                            exp: exp,
+                            level: level
+                        })
+                    })
+                        .then(function(response) {
+                            if (response.status == 200) {
+                                vm.user.exp = exp;
+                                vm.user.level = level;
+                                return response.json();
+                            }
+                            return response.json().then(function(json) {
+                                throw new Error(json.message);
+                            });
+                        })
+                        .then(function(json) {});
+                });
         },
         // 追加タスクを必須タスクへ移動させるメソッド
         // この関数を呼ぶと，条件を満たす全てのタスクが移動する

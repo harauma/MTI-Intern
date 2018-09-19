@@ -1,10 +1,10 @@
 // ユーザーのレベルと累計経験値とレートを更新
-var AWS = require("aws-sdk");
-var dynamo = new AWS.DynamoDB.DocumentClient();
-var tableName = "team-C-User-internship";
+const AWS = require("aws-sdk");
+const dynamo = new AWS.DynamoDB.DocumentClient();
+const tableName = "team-C-User-internship";
 
 exports.handler = (event, context, callback) => {
-    var response = {
+    let response = {
         statusCode: 200,
         headers: {
             "Access-Control-Allow-Origin": "*"
@@ -12,25 +12,26 @@ exports.handler = (event, context, callback) => {
         body: JSON.stringify({ message: "" })
     };
 
-    var body = JSON.parse(event.body);
+    let body = JSON.parse(event.body);
 
-    var param = {
+    let param = {
         TableName: tableName,
         Key: {
             userId: body.userId
         },
-        updateExpression: "set level = :l, exp = :e, rate = :r",
+        ExpressionAttributeNames: {
+            "#l": "level",
+            "#e": "exp"
+        },
         ExpressionAttributeValues: {
             ":l": Number(body.level),
-            ":e": Number(body.exp),
-            ":r": Number(body.rate)
+            ":e": Number(body.exp)
         },
+        UpdateExpression: "SET #l = :l, #e = :e",
         ReturnValues: "UPDATED_NEW"
     };
-    console.log(param.Key);
     dynamo.update(param, function(err, data) {
         if (err) {
-            //TODO: 更新に失敗した場合の処理を記述
             console.log(err);
             response.statusCode = 500;
             response.body = JSON.stringify({
@@ -39,7 +40,9 @@ exports.handler = (event, context, callback) => {
             callback(null, response);
             return;
         } else {
-            response.body = JSON.stringify(param.Item);
+            response.body = JSON.stringify({
+                message: "経験値の更新が完了しました"
+            });
             callback(null, response);
         }
     });
