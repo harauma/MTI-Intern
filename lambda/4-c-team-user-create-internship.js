@@ -2,6 +2,7 @@ const AWS = require("aws-sdk");
 const dynamo = new AWS.DynamoDB.DocumentClient();
 const userTableName = "team-C-User-internship";
 const userInfoTableName = "team-C-UserInfo-internship";
+const TaskTableName = "team-C-Task-internship";
 
 exports.handler = (event, context, callback) => {
     let response = {
@@ -65,6 +66,42 @@ exports.handler = (event, context, callback) => {
                 category: "deskWork",
                 time: body.userInfo.deskWork
             }
+        },
+        {
+            TableName: TaskTableName,
+            Item: {
+                userId: body.userId,
+                taskName: "歩く",
+                done: false,
+                intensity: 3.5,
+                kind: "optional",
+                time: body.userInfo.walking,
+                week:0
+            }
+        },
+        {
+            TableName: TaskTableName,
+            Item: {
+                userId: body.userId,
+                taskName: "立つ",
+                done: false,
+                intensity: 1.8,
+                kind: "optional",
+                time: body.userInfo.train,
+                week:0
+            }
+        },
+        {
+            TableName: TaskTableName,
+            Item: {
+                userId: body.userId,
+                taskName: "足上げ",
+                done: false,
+                intensity: 3.3,
+                kind: "optional",
+                time: 10,
+                week:0
+            }
         }
     ];
 
@@ -79,6 +116,10 @@ exports.handler = (event, context, callback) => {
         }
         // userInfoを全て登録
         userInfoParams.forEach(function(param) {
+            console.log(param);
+            if (param.TableName === TaskTableName && Number(param.Item.time) === 0){
+                return;
+            }
             dynamo.put(param, function(err, data) {
                 if (err) {
                     response.statusCode = 500;
