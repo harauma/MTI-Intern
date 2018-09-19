@@ -67,28 +67,6 @@ var vm = new Vue({
             .catch(function(err) {
                 console.log(err);
             });
-        // ユーザーの現在のレベル，レート，累計取得経験値を登録
-        fetch(url + "/user?userId=" + localStorage.getItem("userId"), {
-            method: "GET"
-        })
-            .then(function(response) {
-                if (response.status == 200) {
-                    return response.json();
-                }
-                return response.json().then(function(json) {
-                    throw new Error(json.message);
-                });
-            })
-            .then(function(json) {
-                // 現在のレベル，レート，経験値を保存
-                // 右辺はこれで動くのか?
-                vm.currentLevel = json.level;
-                vm.currentRate = json.rate;
-                vm.currentExp = json.exp;
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
     },
     methods: {
         calorie: function(task) {
