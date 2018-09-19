@@ -2,87 +2,150 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title></title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
-  <script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
-  <link rel="stylesheet" href="./common/style.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ひびえっと</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+	<script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
+	<link rel="stylesheet" href="https://static.mod.io/html/external/min/index.php?b=v1&amp;f=css/slick.css&amp;1" type="text/css">
+	<link rel="stylesheet" type="text/css" media="all" href="https://static.mod.io/html/external/min/index.php?g=home&amp;1">
+	<link rel="stylesheet" href="./common/style.css">
+
 </head>
 
 <body>
-  <div id="app">
-    <common-menu current="login"></common-menu>
-    <div class="ui main container">
-      <div class="ui segment">
-        <form class="ui large form" v-on:submit.prevent="submit">
-          <!-- ユーザ基本情報フォーム -->
-          <h4 class="ui dividing header" v-if="mode=='signup'">ユーザー基本情報</h4>
-          <div class="field">
-            <label>ユーザーID</label>
-            <input type="text" v-model="user.userId" required>
-          </div>
-          <div class="field">
-            <label>パスワード</label>
-            <input type="password" v-model="user.password" required>
-          </div>
-          <!-- 体重入力フォーム(新規登録時のみ) -->
-          <div class="field" v-if="mode=='signup'">
-            <label>体重</label>
-            <input type="text" v-model="user.weight" required>
-          </div>
-          <!-- 現在の状況入力フォーム(新規登録時のみ) -->
-          <!-- @TODO 現状フォーム要素固定 -->
-          <h4 class="ui dividing header" v-if="mode=='signup'">現在の生活状況</h4>
-          <!-- 通勤時間入力フォーム -->
-          <div class="field" v-if="mode=='signup'">
-            <label>通勤時間</label>
-            <div class="three fields" v-if="mode=='signup'">
-              <div class="field">
-                <div class="ui right labeled input">
-                  <input type="number" placeholder="徒歩" v-model="user.userInfo.walking" required>
-                  <div class="ui basic label">分</div>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui right labeled input">
-                  <input type="number" placeholder="電車" v-model="user.userInfo.train" required>
-                  <div class="ui basic label">分</div>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui right labeled input">
-                  <input type="number" placeholder="自転車" v-model="user.userInfo.bicycle" required>
-                  <div class="ui basic label">分</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- デスクワーク時間入力フォーム -->
-          <div class="field" v-if="mode=='signup'">
-            <label>デスクワーク時間</label>
-            <div class="ui right labeled input">
-              <input type="number" v-model="user.userInfo.deskWork" required>
-              <div class="ui basic label">時間</div>
-            </div>
-          </div>
-          <!-- フォーム送信ボタン -->
-          <button class="ui huge green fluid button" type="submit">
-            {{ submitText }}
-          </button>
-        </form>
-      </div>
-      <!-- フォーム切り替えボタン -->
-      <button class="ui huge grey fluid button" v-on:click="toggleMode">
-        {{ toggleText }}
-      </button>
-    </div>
-  </div>
+	<div id="app">
+		<common-menu current="login"></common-menu>
+		
 
-  <script src="./common/config.js" charset="utf-8"></script>
-  <script src="./js/menu.js" charset="utf-8"></script>
-  <script src="./js/login.js" charset="utf-8"></script>
+		<section class="hero">
+			<div class="hero-body">
+				<div class="container has-text-centered">
+					<div class="column is-4 is-offset-4">
+						<h3 class="title has-text-grey" v-if="mode=='login'">Login</h3>
+						<h3 class="title has-text-grey" v-if="mode=='signup'">User Info</h3>
+						<!--<p class="subtitle has-text-grey">Please login to proceed.</p>-->
+						<div class="box">
+							<form v-on:submit.prevent="submit">
+								<div class="field">
+									<div class="control">
+										<input class="input is-large" type="text" placeholder="User ID" autofocus="" v-model="user.userId" required>
+									</div>
+								</div>
+
+								<div class="field">
+									<div class="control">
+										<input class="input is-large" type="password" placeholder="Your Password" v-model="user.password" required>
+									</div>
+								</div>
+								<div class="field" v-if="mode=='signup'">
+									<div class="control">
+										<input class="input is-large" type="text" placeholder="Your weight" v-model="user.weight" required>
+									</div>
+								</div>
+								<!-- 現在の状況入力フォーム(新規登録時のみ) -->
+								<!-- @TODO 現状フォーム要素固定 -->
+								<label class="label is-large" v-if="mode=='signup'">現在の生活状況</label>
+								<div class="card-header bg-transparent font-weight-bold" v-if="mode=='signup'">
+									通勤時間
+								</div>
+								<!-- 通勤時間入力フォーム -->
+								<div class="field">
+									<div class="field-body" v-if="mode=='signup'">
+										<!--徒歩-->
+										<div class="form-label-group">
+            				<label class="label">徒歩</label>
+										<div class="field has-addons">
+											<div class="control">
+												<input class="input" type="number" v-model="user.userInfo.walking" required>
+											</div>
+											<div class="control">
+												<a class="button is-static">
+														分
+												</a>
+											</div>
+										</div>
+										</div>
+										<!--電車-->
+										<div class="form-label-group">
+            				<label class="label">電車</label>
+										<div class="field has-addons">
+											<div class="control">
+												<input class="input" type="number" 　v-model="user.userInfo.train" required>
+											</div>
+											<div class="control">
+												<a class="button is-static">
+														分
+												</a>
+											</div>
+										</div>
+										</div>
+										<!--自転車-->
+										<div class="form-label-group">
+            				<label class="label">自転車</label>
+										<div class="field has-addons">
+											<div class="control">
+												<input class="input" type="number" v-model="user.userInfo.bicycle" required>
+											</div>
+											<div class="control">
+												<a class="button is-static">
+														分
+												</a>
+											</div>
+										</div>
+										</div>
+									</div>
+								</div>
+								<!-- デスクワーク時間入力フォーム -->
+								<div class="card-header bg-transparent font-weight-bold" v-if="mode=='signup'">
+									デスクワーク時間
+								</div>
+								<div class="field">
+									<div class="field-body" v-if="mode=='signup'">
+										<div class="field has-addons">
+											<div class="control is-expanded">
+												<input class="input" type="number" v-model="user.userInfo.deskWork" required>
+											</div>
+											<div class="control">
+												<a class="button is-static">
+														時間
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- フォーム送信ボタン -->
+								<button class="button is-block is-info is-large is-fullwidth" type="submit">{{ submitText }}</button>
+							</form>
+						</div>
+						<!-- フォーム切り替えボタン -->
+						<button class="button is-block is-info is-large is-fullwidth" type="submit" v-on:click="toggleMode">
+							{{ toggleText }}
+						</button>
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+	</div>
+
+	<script src="./common/config.js" charset="utf-8"></script>
+	<script src="./js/menu.js" charset="utf-8"></script>
+	<script src="./js/login.js" charset="utf-8"></script>
+
 </body>
+<footer class="footer">
+   <div class="container">
+     <div class="content has-text-centered">
+       2018 c-team
+     </div>
+   </div>
+</footer>
+
+
 
 </html>
