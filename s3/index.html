@@ -22,8 +22,8 @@
           <div class="ui segments">
             <div class="ui segment" v-for="ntask in NecessaryTasks">
               <div class="ui checkbox">
-                <input type="checkbox" v-on:click="regist(task)">
-                <label>{{task.taskName}}</label>
+                <input type="checkbox" v-on:click="regist(ntask)">
+                <label>{{ntask.taskName}}</label>
               </div>
             </div>
           </div>
@@ -35,8 +35,8 @@
           <div class="ui segments">
             <div class="ui segment" v-for="otask in OptionalTasks">
               <div class="ui checkbox">
-                <input type="checkbox" v-on:click="regist(task)">
-                <label>{{task.taskName}}</label>
+                <input type="checkbox" v-on:click="regist(otask)">
+                <label>{{otask.taskName}}</label>
               </div>
             </div>
           </div>
