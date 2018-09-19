@@ -23,7 +23,8 @@ exports.handler = (event, context, callback) => {
             password: body.password,
             weight: body.weight,
             level: 1,
-            exp: 0
+            exp: 0,
+            rate: 0
         },
         ReturnValues: "ALL_OLD"
     };

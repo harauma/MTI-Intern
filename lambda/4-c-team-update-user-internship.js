@@ -1,3 +1,4 @@
+// ユーザーのレベルと累計経験値とレートを更新
 var AWS = require("aws-sdk");
 var dynamo = new AWS.DynamoDB.DocumentClient();
 var tableName = "team-C-User-internship";
@@ -18,10 +19,11 @@ exports.handler = (event, context, callback) => {
         Key : {
             "userId" : body.userId,
         },
-        updateExpression: "set level = :l, exp = :e",
+        updateExpression: "set level = :l, exp = :e, rate = :r",
         ExpressionAttributeValues:{
             ":l": Number(body.level),
-            ":e": Number(body.exp)
+            ":e": Number(body.exp),
+            ":r": Number(body.rate)
         },
         ReturnValues:"UPDATED_NEW"
     };
