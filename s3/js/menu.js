@@ -3,6 +3,7 @@ Vue.component("common-menu", {
     template: `
       <div class="ui uisecondary green inverted massive menu">
         <a class="item" href="./index.html" v-bind:class="{active: current==='home'}">Home</a>
+        <a class="item" href="./ranking.html" v-bind:class="{active: current==='ranking'}">Ranking</a>
         <div class="right menu" v-if="loginStatus">
           <button class="item" v-on:click="logout">Logout</button>
         </div>
