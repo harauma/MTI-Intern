@@ -36,7 +36,7 @@
           <!-- @TODO 現状フォーム要素固定 -->
           <h4 class="ui dividing header" v-if="mode=='signup'">現在の生活状況</h4>
           <!-- 通勤時間入力フォーム -->
-          <div class="field">
+          <div class="field" v-if="mode=='signup'">
             <label>通勤時間</label>
             <div class="three fields" v-if="mode=='signup'">
               <div class="field">
