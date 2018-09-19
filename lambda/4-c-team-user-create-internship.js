@@ -102,18 +102,6 @@ exports.handler = (event, context, callback) => {
                 time: 10,
                 week:0
             }
-        },
-        {
-            TableName: TaskTableName,
-            Item: {
-                userId: body.userId,
-                taskName: "テスト",
-                done: false,
-                intensity: 3500000000,
-                kind: "optional",
-                time: 0,
-                week:0
-            }
         }
     ];
 
