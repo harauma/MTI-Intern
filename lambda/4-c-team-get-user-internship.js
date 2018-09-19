@@ -1,6 +1,6 @@
 var AWS = require("aws-sdk");
 var dynamo = new AWS.DynamoDB.DocumentClient();
-var tableName = "team-C-Task-internship";
+var tableName = "team-C-User-internship";
 
 exports.handler = (event, context, callback) => {
     var response = {
@@ -54,6 +54,9 @@ exports.handler = (event, context, callback) => {
             return;
         }
         //TODO: 認証が成功した場合のレスポンスボディとコールバックを記述
+        posts.forEach(function(val){
+            delete val.password;
+        });
         response.body = JSON.stringify(posts);
         console.log("[search]検索に成功");
         callback(null, response);

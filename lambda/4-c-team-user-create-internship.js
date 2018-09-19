@@ -21,7 +21,9 @@ exports.handler = (event, context, callback) => {
         Item: {
             userId: body.userId,
             password: body.password,
-            weight: body.weight
+            weight: body.weight,
+            level: 1,
+            exp: 0
         },
         ReturnValues: "ALL_OLD"
     };
