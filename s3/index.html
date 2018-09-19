@@ -46,7 +46,7 @@
 				<!-- 必須終了 -->
 				<!-- 追加 -->
 				<div class="column is-two-fifths">
-					<article class="message is-primary">
+					<article class="message is-link">
 						<div class="message-header">
 							<p>追加</p>
 						</div>
@@ -55,10 +55,9 @@
 								<div class="board-item-content"><span>			
 										<label class="checkbox" v-on:click="regist(otask)" v-bind:checked="otask.done">
 											<input type="checkbox">
-											{{otask.taskName}}
+											{{otask.taskName}}<span>    {{calorie(otask)}}</span>
 										</label>							
 									</span></div>
-								{{calorie(otask)}}
 							</div>
 						</div>
 						<h4 class="title is-4 has-text-centered" v-else>現在必須タスクはありません。</h4>
