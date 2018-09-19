@@ -1,0 +1,24 @@
+env:
+  es6: true
+  node: true
+  browser: true
+extends:
+  - "eslint:recommended"
+  - "plugin:vue/base"
+globals:
+  Vue: false
+  url: true
+parserOptions:
+  sourceType: module
+plugins:
+  - node
+  - vue
+rules:
+  indent: [error, 4]
+  linebreak-style: [error, unix]
+  semi: [error, always]
+  no-console: off
+  node/no-deprecated-api: error
+  node/no-missing-require: error
+  node/no-unsupported-features: error
+  no-unused-vars: off

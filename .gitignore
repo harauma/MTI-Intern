@@ -1,0 +1,10 @@
+# distフォルダ
+dist/
+dist.zip
+
+# node_modulesフォルダ
+node_modules/
+
+# for Mac
+.DS_Store
+package-lock.json

@@ -1,0 +1,21 @@
+{
+    "name": "template-project",
+    "version": "1.0.0",
+    "description": "Template project for mti summer internship",
+    "scripts": {
+        "lint": "eslint --fix lambda/* s3/*",
+        "arrange-atom-editor": "apm install linter linter-eslint editorconfig linter-ui-default"
+    },
+    "devDependencies": {
+        "del": "^2.2.2",
+        "eslint": "^5.2.0",
+        "eslint-plugin-node": "^7.0.1",
+        "eslint-plugin-vue": "^4.7.1",
+        "gulp": "^3.9.1",
+        "gulp-awspublish": "^3.3.0",
+        "gulp-install": "^1.1.0",
+        "gulp-zip": "^4.0.0",
+        "node-aws-lambda": "^0.1.1",
+        "run-sequence": "^1.2.2"
+    }
+}
