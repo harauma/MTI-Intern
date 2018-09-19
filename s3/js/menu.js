@@ -20,6 +20,7 @@ Vue.component("common-menu", {
         logout: function() {
             localStorage.removeItem("token");
             localStorage.removeItem("userId");
+            localStorage.removeItem("weight");
             location.href = "./login.html";
         },
         login: function() {

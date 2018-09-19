@@ -4,12 +4,12 @@ var vm = new Vue({
         tasks: []
     },
     computed: {
-        NecessaryTasks: function() {
+        necessaryTasks: function() {
             return this.tasks.filter(function(target) {
                 return target.kind === "necessary";
             });
         },
-        OptionalTasks: function() {
+        optionalTasks: function() {
             return this.tasks.filter(function(target) {
                 return target.kind === "optional";
             });
@@ -39,6 +39,28 @@ var vm = new Vue({
             });
     },
     methods: {
+        calorie: function(task) {
+            return (
+                Math.round(
+                    task.intensity *
+                        localStorage.getItem("weight") *
+                        (task.time / 60) *
+                        1.05
+                ) + "kcal"
+            );
+        },
+        sumCalorie: function(tasks) {
+            let sum = 0;
+            tasks.forEach(task => {
+                sum += Math.round(
+                    task.intensity *
+                        localStorage.getItem("weight") *
+                        (task.time / 60) *
+                        1.05
+                );
+            });
+            return sum;
+        },
         regist: function(task) {
             console.log(task);
             task.done = !task.done;
