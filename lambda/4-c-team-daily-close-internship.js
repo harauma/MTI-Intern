@@ -280,6 +280,46 @@ exports.handler = (event, context, callback) => {
                             });
                         });
                     });
+
+                    // オプショナルタスクを追加
+                    let addTasks = [
+                        {
+                            TableName: taskTableName,
+                            Item: {
+                                userId: body.userId,
+                                taskName: "ランニング",
+                                done: false,
+                                intensity: 3.5,
+                                kind: "optional",
+                                time: 5,
+                                week: 0
+                            }
+                        },
+                        {
+                            TableName: taskTableName,
+                            Item: {
+                                userId: body.userId,
+                                taskName: "爪先立ち",
+                                done: false,
+                                intensity: 2.3,
+                                kind: "optional",
+                                time: 10,
+                                week: 0
+                            }
+                        }
+                    ];
+                    addTasks.forEach(function(param) {
+                        dynamo.put(param, function(err, data) {
+                            if (err) {
+                                response.statusCode = 500;
+                                response.body = JSON.stringify({
+                                    message: "予期せぬエラーが発生しました"
+                                });
+                                callback(null, response);
+                                return;
+                            }
+                        });
+                    });
                 });
             }
 
