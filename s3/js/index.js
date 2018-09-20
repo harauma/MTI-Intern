@@ -8,7 +8,8 @@ var vm = new Vue({
             exp: null,
             days: null
         },
-        tasks: []
+        tasks: [],
+        isLoading: false
     },
     computed: {
         necessaryTasks: function() {
@@ -91,6 +92,7 @@ var vm = new Vue({
             return sum;
         },
         toggle: function(task, calorie) {
+            vm.isLoading = true;
             task.done = !task.done;
             fetch(url + "/tasks/toggle", {
                 method: "PUT",
@@ -109,6 +111,7 @@ var vm = new Vue({
                 })
                 .then(json => {
                     this.updateUserExp(task, calorie);
+                    vm.isLoading = false;
                 });
         },
         updateUserExp: function(task, calorie) {
@@ -241,6 +244,7 @@ var vm = new Vue({
                 });
         },
         dailyClose: function() {
+            vm.isLoading = true;
             fetch(url + "/daily-close", {
                 method: "POST",
                 headers: new Headers({
@@ -259,6 +263,7 @@ var vm = new Vue({
                 .then(json => {
                     console.log(json);
                     console.log("日付を進めました");
+                    vm.isLoading = false;
                     location.href = "./index.html";
                 });
         }
