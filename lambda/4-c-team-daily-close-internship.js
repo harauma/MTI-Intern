@@ -216,6 +216,7 @@ exports.handler = (event, context, callback) => {
                                 });
                             }
                         });
+                        console.log("test2: ", updateOptionalTaskParams);
                         updateOptionalTaskParams.forEach(function(param) {
                             console.log("task: ", param);
                             dynamo.put(param, function(err, data) {
@@ -252,20 +253,18 @@ exports.handler = (event, context, callback) => {
 
                         let updateWeekTaskParams = [];
                         data.Items.forEach(function(task) {
-                            if (task.week >= 5) {
-                                updateWeekTaskParams.push({
-                                    TableName: taskTableName,
-                                    Item: {
-                                        userId: body.userId,
-                                        taskName: task.taskName,
-                                        done: task.done,
-                                        intensity: task.intensity,
-                                        kind: task.kind,
-                                        time: task.time,
-                                        week: 0
-                                    }
-                                });
-                            }
+                            updateWeekTaskParams.push({
+                                TableName: taskTableName,
+                                Item: {
+                                    userId: body.userId,
+                                    taskName: task.taskName,
+                                    done: task.done,
+                                    intensity: task.intensity,
+                                    kind: task.kind,
+                                    time: task.time,
+                                    week: 0
+                                }
+                            });
                         });
                         updateWeekTaskParams.forEach(function(param) {
                             console.log("task: ", param);
