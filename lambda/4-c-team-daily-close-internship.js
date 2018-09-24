@@ -176,6 +176,149 @@ exports.handler = (event, context, callback) => {
                             return;
                         }
                     });
+
+                    // 必須に移動
+                    let updateOptionalTaskParam = {
+                        TableName: taskTableName,
+                        KeyConditionExpression: "userId = :uid",
+                        FilterExpression: "kind = :k",
+                        ExpressionAttributeValues: {
+                            ":uid": body.userId,
+                            ":k": "optional"
+                        }
+                    };
+                    dynamo.query(updateOptionalTaskParam, function(err, data) {
+                        if (err) {
+                            response.statusCode = 500;
+                            response.body = JSON.stringify({
+                                message: "予期せぬエラーが発生しました2"
+                            });
+                            console.log(err);
+                            callback(null, response);
+                            return;
+                        }
+
+                        console.log("test1: ", data);
+                        let updateOptionalTaskParams = [];
+                        data.Items.forEach(function(task) {
+                            if (task.week >= 5) {
+                                updateOptionalTaskParams.push({
+                                    TableName: taskTableName,
+                                    Item: {
+                                        userId: body.userId,
+                                        taskName: task.taskName,
+                                        done: task.done,
+                                        intensity: task.intensity,
+                                        kind: "necessary",
+                                        time: task.time,
+                                        week: task.week
+                                    }
+                                });
+                            }
+                        });
+                        console.log("test2: ", updateOptionalTaskParams);
+                        updateOptionalTaskParams.forEach(function(param) {
+                            console.log("updateTask: ", param);
+                            dynamo.put(param, function(err, data) {
+                                if (err) {
+                                    response.statusCode = 500;
+                                    response.body = JSON.stringify({
+                                        message: "予期せぬエラーが発生しました3"
+                                    });
+                                    callback(null, response);
+                                    return;
+                                }
+                            });
+                        });
+                    });
+
+                    // オプショナルタスクを追加
+                    let addTasks = [
+                        {
+                            TableName: taskTableName,
+                            Item: {
+                                userId: body.userId,
+                                taskName: "ランニング",
+                                done: false,
+                                intensity: 3.5,
+                                kind: "optional",
+                                time: 5,
+                                week: 0
+                            }
+                        },
+                        {
+                            TableName: taskTableName,
+                            Item: {
+                                userId: body.userId,
+                                taskName: "爪先立ち",
+                                done: false,
+                                intensity: 2.3,
+                                kind: "optional",
+                                time: 10,
+                                week: 0
+                            }
+                        }
+                    ];
+                    addTasks.forEach(function(param) {
+                        dynamo.put(param, function(err, data) {
+                            if (err) {
+                                response.statusCode = 500;
+                                response.body = JSON.stringify({
+                                    message: "予期せぬエラーが発生しました"
+                                });
+                                callback(null, response);
+                                return;
+                            }
+                        });
+                    });
+                    // Taskのweekをリセット
+                    let updateWeekTaskParam = {
+                        TableName: taskTableName,
+                        KeyConditionExpression: "userId = :uid",
+                        ExpressionAttributeValues: {
+                            ":uid": body.userId
+                        }
+                    };
+                    dynamo.query(updateWeekTaskParam, function(err, data) {
+                        if (err) {
+                            response.statusCode = 500;
+                            response.body = JSON.stringify({
+                                message: "予期せぬエラーが発生しました2"
+                            });
+                            console.log(err);
+                            callback(null, response);
+                            return;
+                        }
+
+                        let updateWeekTaskParams = [];
+                        data.Items.forEach(function(task) {
+                            updateWeekTaskParams.push({
+                                TableName: taskTableName,
+                                Item: {
+                                    userId: body.userId,
+                                    taskName: task.taskName,
+                                    done: task.done,
+                                    intensity: task.intensity,
+                                    kind: task.kind,
+                                    time: task.time,
+                                    week: 0
+                                }
+                            });
+                        });
+                        updateWeekTaskParams.forEach(function(param) {
+                            console.log("task: ", param);
+                            dynamo.put(param, function(err, data) {
+                                if (err) {
+                                    response.statusCode = 500;
+                                    response.body = JSON.stringify({
+                                        message: "予期せぬエラーが発生しました3"
+                                    });
+                                    callback(null, response);
+                                    return;
+                                }
+                            });
+                        });
+                    });
                 });
             }
 

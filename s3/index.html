@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
   <link rel="stylesheet" href="https://static.mod.io/html/external/min/index.php?b=v1&amp;f=css/slick.css&amp;1" type="text/css">
   <link rel="stylesheet" type="text/css" media="all" href="https://static.mod.io/html/external/min/index.php?g=home&amp;1">
   <link rel="stylesheet" href="./common/style.css">
@@ -17,6 +18,10 @@
 
 <body>
   <div id="app">
+    <div class="ui inverted dimmer" v-bind:class="{active: isLoading}">
+      <div class="ui loader"></div>
+    </div>
+    <p></p>
     <common-menu current="home"></common-menu>
     <section class="section">
       <div class="container">
@@ -63,9 +68,9 @@
               <div class="message-body" v-if="necessaryTasks.length !== 0">
                 <div class="board-item" v-for="ntask in necessaryTasks">
                   <div class="board-item-content"><span>
-                      <label class="checkbox" v-on:click="toggle(ntask, calorie(ntask))">
-                        <input type="checkbox" v-bind:checked="ntask.done">
-                        {{ntask.taskName}}<span>{{calorie(ntask)}}kcal</span>
+                      <label class="checkbox">
+                        <input type="checkbox" v-on:click="toggle(ntask, calorie(ntask))" v-bind:checked="ntask.done">
+                        {{ntask.time}}分{{ntask.taskName}}<span>{{calorie(ntask)}}kcal</span>
                       </label>
                     </span></div>
                 </div>
@@ -88,9 +93,9 @@
               <div class="message-body" v-if="optionalTasks.length !== 0">
                 <div class="board-item" v-for="otask in optionalTasks">
                   <div class="board-item-content"><span>
-                      <label class="checkbox" v-on:click="toggle(otask, calorie(otask))">
-                        <input type="checkbox" v-bind:checked="otask.done">
-                        {{otask.taskName}}<span>{{calorie(otask)}}kcal</span>
+                      <label class="checkbox">
+                        <input type="checkbox" v-on:click="toggle(otask, calorie(otask))" v-bind:checked="otask.done">
+                        {{otask.time}}分{{otask.taskName}}<span>{{calorie(otask)}}kcal</span><span>({{otask.week}}/7)</span>
                       </label>
                     </span></div>
                 </div>
