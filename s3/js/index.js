@@ -65,6 +65,7 @@ var vm = new Vue({
             })
             .then(json => {
                 this.tasks = json;
+                console.log(json);
             })
             .catch(function(err) {
                 console.log(err);

@@ -93,9 +93,9 @@
               <div class="message-body" v-if="optionalTasks.length !== 0">
                 <div class="board-item" v-for="otask in optionalTasks">
                   <div class="board-item-content"><span>
-                      <label class="checkbox" v-on:click="toggle(otask, calorie(otask))">
+                      <label class="checkbox">
                         <input type="checkbox" v-on:click="toggle(otask, calorie(otask))" v-bind:checked="otask.done">
-                        {{otask.time}}分{{otask.taskName}}<span>{{calorie(otask)}}kcal</span>
+                        {{otask.time}}分{{otask.taskName}}<span>{{calorie(otask)}}kcal</span><span>({{otask.week}}/7)</span>
                       </label>
                     </span></div>
                 </div>
